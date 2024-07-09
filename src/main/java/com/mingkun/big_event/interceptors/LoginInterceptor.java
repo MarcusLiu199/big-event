@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.mingkun.big_event.utils.JwtUtil;
+import com.mingkun.big_event.utils.ThreadLocalUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,6 +22,8 @@ public class LoginInterceptor implements HandlerInterceptor {
         // 验证token
         try {
             Map<String, Object> claims = JwtUtil.parseToken(token);
+            // 将业务数据存储到ThreadLocal中
+            ThreadLocalUtil.set(claims);
             // 放行
             return true;
         } catch (Exception e) {
@@ -29,5 +32,11 @@ public class LoginInterceptor implements HandlerInterceptor {
             // 不放行
             return false;
         }
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+            throws Exception {
+        ThreadLocalUtil.remove();
     }
 }

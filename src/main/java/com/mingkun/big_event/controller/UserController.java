@@ -5,7 +5,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,6 +16,7 @@ import com.mingkun.big_event.pojo.User;
 import com.mingkun.big_event.service.UserService;
 import com.mingkun.big_event.utils.JwtUtil;
 import com.mingkun.big_event.utils.Md5Util;
+import com.mingkun.big_event.utils.ThreadLocalUtil;
 
 import jakarta.validation.constraints.Pattern;
 
@@ -62,5 +65,17 @@ public class UserController {
         }
 
         return Result.error("密码错误");
+    }
+
+    @GetMapping("/userInfo")
+    public Result<User> userInfo(@RequestHeader(name = "Authorization") String token) {
+        // 根据用户名查询用户
+        // Map<String, Object> claims = JwtUtil.parseToken(token);
+        // String username = (String) claims.get("username");
+        Map<String, Object> map = ThreadLocalUtil.get();
+        String username = (String) map.get("username");
+
+        User user = userService.findByUsername(username);
+        return Result.success(user);   
     }
 }

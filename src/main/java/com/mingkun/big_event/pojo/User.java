@@ -2,12 +2,15 @@ package com.mingkun.big_event.pojo;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
 public class User {
     private Integer id; // 主键ID
     private String username; // 用户名
+    @JsonIgnore // 让springMVC把当前对象转换成json字符串的时候忽略password，最终json字符串中就没有password这个属性
     private String password; // 密码
     private String nickname; // 昵称
     private String email; // 邮箱
