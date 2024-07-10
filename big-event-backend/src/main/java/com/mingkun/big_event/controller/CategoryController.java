@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mingkun.big_event.pojo.Category;
 import com.mingkun.big_event.pojo.Result;
+import com.mingkun.big_event.pojo.Category.Add;
+import com.mingkun.big_event.pojo.Category.Update;
 import com.mingkun.big_event.service.CategoryService;
 
 @RestController
@@ -23,7 +25,9 @@ public class CategoryController {
     private CategoryService categoryService;
     
     @PostMapping
-    public Result add(@RequestBody @Validated Category category) {
+    // Assign Add.class value, which act as a label to the @Validated annotation
+    // to group the validation annotation in category attributes.
+    public Result add(@RequestBody @Validated(Add.class) Category category) {
         categoryService.add(category);
         return Result.success();
     }
@@ -41,7 +45,7 @@ public class CategoryController {
     }
 
     @PutMapping
-    public Result update(@RequestBody @Validated Category category) {
+    public Result update(@RequestBody @Validated(Update.class) Category category) {
         categoryService.update(category);
         return Result.success();
     }

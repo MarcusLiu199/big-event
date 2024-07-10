@@ -10,13 +10,13 @@ import lombok.Data;
 
 @Data
 public class Category {
-    @NotNull
+    @NotNull(groups = Update.class)
     private Integer Id; // 主键ID
 
-    @NotEmpty
+    @NotEmpty(groups = {Add.class, Update.class})
     private String categoryName; // 分类名称
 
-    @NotEmpty
+    @NotEmpty(groups = {Add.class, Update.class})
     private String categoryAlias; // 分类别名
     private Integer createUser; // 创建人ID
 
@@ -25,4 +25,14 @@ public class Category {
     
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime; // 更新时间
+
+    public interface Add {
+    
+        
+    }
+
+    public interface Update {
+    
+        
+    }
 }
