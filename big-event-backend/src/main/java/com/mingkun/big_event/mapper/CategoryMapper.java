@@ -2,6 +2,7 @@ package com.mingkun.big_event.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -28,4 +29,8 @@ public interface CategoryMapper {
     // 更新分类
     @Update("update category set category_name=#{categoryName}, category_alias=#{categoryAlias}, update_time=now() where id=#{id}")
     void update(Category category);
+
+    // 删除分类
+    @Delete("delete from category where id=#{id}")
+    void delete(Integer id);
 }
